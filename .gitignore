@@ -9,6 +9,7 @@ build
 .env
 .php_cs.cache
 *.volt.php
+composer.lock
 
 # OS specific
 .DS_Store
