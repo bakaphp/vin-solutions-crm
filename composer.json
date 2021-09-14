@@ -1,0 +1,52 @@
+{
+    "name": "kanvas/vin-solutions-crm",
+    "description": "VinSolutions PHP Wrapper.",
+    "keywords": [
+        "vinsolutions",
+        "crm"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "kaioken",
+            "email": "max@mctekk.com"
+        }
+    ],
+    "type": "project",
+    "require": {
+        "php": "^7.4",
+        "guzzlehttp/guzzle": "^6.5",
+        "baka/baka": "0.7.x-dev",
+        "phalcon/incubator": "^4.0.0-alpha.1",
+        "phalcon/incubator-acl": "^1.0.0-alpha.1"
+    },
+    "require-dev": {
+        "codeception/codeception": "^4.1",
+        "codeception/module-asserts": "^1.2",
+        "codeception/module-filesystem": "^1.0",
+        "codeception/module-phalcon": "^1.0",
+        "codeception/module-phalcon4": "^1.0",
+        "codeception/verify": "*",
+        "fzaninotto/faker": "^1.9",
+        "phpunit/phpunit": "^9.1", 
+        "squizlabs/php_codesniffer": "1.*",
+        "phalcon/ide-stubs": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kanvas\\VinSolutions\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/codecept run"
+    },
+    "suggest": {
+        "ext-redis": "Required to use the Redis cache and queue drivers (^4.0|^5.0)."
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "discard-changes": true
+    }
+}
