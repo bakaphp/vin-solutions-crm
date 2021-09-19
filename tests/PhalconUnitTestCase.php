@@ -36,7 +36,6 @@ class PhalconUnitTestCase extends PhalconUnit
 
         $this->di->setShared('config', fn () => $config);
 
-
         $this->di->setShared(
             'redis',
             function () {
