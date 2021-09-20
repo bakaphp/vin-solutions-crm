@@ -1,10 +1,6 @@
 {
     "name": "kanvas/vin-solutions-crm",
     "description": "VinSolutions PHP Wrapper.",
-    "keywords": [
-        "vinsolutions",
-        "crm"
-    ],
     "license": "MIT",
     "authors": [
         {
@@ -34,7 +30,16 @@
     },
     "autoload": {
         "psr-4": {
-            "Kanvas\\VinSolutions\\": "src/"
+            "Kanvas\\VinSolutions\\": "src/",
+            "Kanvas\\VinSolutions\\Tests\\": "tests/",
+            "Kanvas\\VinSolutions\\Tests\\Support\\": "tests/_support"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kanvas\\VinSolutions\\": "src/",
+            "Kanvas\\VinSolutions\\Tests\\": "tests/",
+            "Kanvas\\VinSolutions\\Tests\\Support\\": "tests/_support"
         }
     },
     "scripts": {
@@ -42,11 +47,5 @@
     },
     "suggest": {
         "ext-redis": "Required to use the Redis cache and queue drivers (^4.0|^5.0)."
-    },
-    "config": {
-        "preferred-install": "dist",
-        "sort-packages": true,
-        "optimize-autoloader": true,
-        "discard-changes": true
     }
 }
