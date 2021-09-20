@@ -24,8 +24,10 @@ class Client
     protected string $clientId;
     protected string $clientSecret;
     protected string $apiKey;
+    protected string $apiKeyDigitalShowRoom;
     protected Redis $redis;
     protected string $redisKey = 'vinSolutionAuthToken';
+    protected bool $useDigitalShowRoomKey = false;
 
     /**
      * Constructor.
@@ -41,6 +43,7 @@ class Client
         $this->clientId = envValue('VINSOLUTIONS_CLIENT_ID');
         $this->clientSecret = envValue('VINSOLUTIONS_CLIENT_SECRET');
         $this->apiKey = envValue('VINSOLUTIONS_API_KEY');
+        $this->apiKeyDigitalShowRoom = envValue('VINSOLUTIONS_API_KEY_DIGITAL_SHOWROOM');
 
         if (!Di::getDefault()->has('redis')) {
             $this->redis = new Redis();
@@ -55,6 +58,16 @@ class Client
                 'timeout' => 2.0
             ]
         );
+    }
+
+    /**
+     * Use digital showroom key.
+     *
+     * @return void
+     */
+    public function useDigitalShowRoomKey() : void
+    {
+        $this->useDigitalShowRoomKey = true;
     }
 
     /**
@@ -103,7 +116,7 @@ class Client
      */
     protected function setHeaders(array $headers) : array
     {
-        $headers['headers']['api_key'] = $this->apiKey;
+        $headers['headers']['api_key'] = !$this->useDigitalShowRoomKey ? $this->apiKey : $this->apiKeyDigitalShowRoom;
         $headers['headers']['Authorization'] = 'Bearer ' . $this->auth()['access_token'];
 
         return $headers;
@@ -134,14 +147,18 @@ class Client
      * Post to the api.
      *
      * @param string $path
-     * @param string $params
+     * @param string $json
+     * @param array $params
      *
      * @return array
      */
-    public function post(string $path, string $json) : array
+    public function post(string $path, string $json, array $params = []) : array
     {
-        $params = $this->setHeaders([]);
-        $params['headers']['Content-Type'] = 'application/json';
+        $params = $this->setHeaders($params);
+        if (!isset($params['headers']['Content-Type'])) {
+            $params['headers']['Content-Type'] = 'application/json';
+        }
+
         $params['body'] = $json;
 
         $response = $this->client->post(
@@ -155,18 +172,23 @@ class Client
         );
     }
 
+
     /**
      * Post to the api.
      *
      * @param string $path
-     * @param string $params
+     * @param string $json
+     * @param array $params
      *
      * @return array
      */
-    public function put(string $path, string $json) : array
+    public function put(string $path, string $json, array $params = []) : array
     {
-        $params = $this->setHeaders([]);
-        $params['headers']['Content-Type'] = 'application/json';
+        $params = $this->setHeaders($params);
+        if (!isset($params['headers']['Content-Type'])) {
+            $params['headers']['Content-Type'] = 'application/json';
+        }
+
         $params['body'] = $json;
 
         $response = $this->client->put(

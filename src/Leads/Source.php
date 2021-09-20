@@ -26,6 +26,35 @@ class Source
     }
 
     /**
+     * Get all lead source.
+     *
+     * @param Dealer $dealer
+     * @param User $user
+     *
+     * @return array
+     */
+    public static function getAll(Dealer $dealer, User $user) : array
+    {
+        $client = new Client($dealer->id, $user->id);
+        $data['DealerId'] = $dealer->id;
+        $data['UserId'] = $user->id;
+
+        $response = $client->get('/leadSources/?dealerId=' . $dealer->id, [
+            'headers' => [
+                'Accept' => 'application/vnd.coxauto.v1+json'
+            ]
+        ]);
+
+        $source = [];
+        if (count($response)) {
+            foreach ($response['items'] as $item) {
+                $source[$item['leadSourceId']] = new self($item);
+            }
+        }
+
+        return $source;
+    }
+    /**
      * Get a contact by its ID.
      *
      * @param Dealer $dealer

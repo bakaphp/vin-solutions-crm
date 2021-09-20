@@ -10,6 +10,18 @@ use PhalconUnitTestCase;
 
 class LeadsSourceTest extends PhalconUnitTestCase
 {
+    public function testGetAll()
+    {
+        $dealer = Dealer::getById(1);
+        $user = Dealer::getUser($dealer, 9);
+
+        $sources = Source::getAll($dealer, $user);
+
+        foreach ($sources as $source) {
+            $this->assertInstanceOf(Source::class, $source);
+        }
+    }
+
     public function testGetById()
     {
         $dealer = Dealer::getById(1);
