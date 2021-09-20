@@ -27,7 +27,7 @@ class Lead
     public function __construct(array $data)
     {
         $this->id = $data['LeadId'] ?? $data['leadId'];
-        $this->leadSource = $data['LeadSource'] ?? null;
+        $this->leadSource = $data['LeadSource'] ?? '55694';
         $this->leadStatusType = $data['LeadStatusType'] ?? null;
         $this->leadStatusId = $data['LeadStatusId'] ?? 0;
         $this->leadType = $data['LeadType'] ?? 0;
@@ -138,5 +138,87 @@ class Lead
 
         $data['LeadId'] = $this->id;
         return new self($data);
+    }
+
+    /**
+     * Start a show room.
+     *
+     * @param Dealer $dealer
+     * @param User $user
+     *
+     * @return self
+     */
+    public function startShowRoom(Dealer $dealer, User $user) : self
+    {
+        $client = new Client($dealer->id, $user->id);
+        $client->useDigitalShowRoomKey();
+        $data = [];
+        $data['DealerId'] = $dealer->id;
+        $data['UserId'] = $user->id;
+        $data['LeadSourceId'] = $this->leadSource;
+        $data['LeadId'] = $this->id;
+        $data['CustomerId'] = $this->contactId;
+
+        $response = $client->post(
+            '/gateway/v1/lead/startShowroomVisit',
+            json_encode($data),
+        );
+
+        return new self($response);
+    }
+
+    /**
+     * Add a trade in to the vehicle.
+     *
+     * @param Dealer $dealer
+     * @param User $user
+     * @param array $data
+     *
+     * @return array
+     */
+    public function addTradeIn(Dealer $dealer, User $user, array $data) : array
+    {
+        $client = new Client($dealer->id, $user->id);
+
+        $request = [];
+        $request['lead'] = 'https://api.vinsolutions.com/leadsources/id/' . $this->id . '?dealerId=' . $dealer->id;
+        $request['vehicles'][] = $data;
+
+
+        $response = $client->post(
+            '/vehicles/trade',
+            json_encode($request),
+            [
+                'headers' => [
+                    'Content-Type' => 'application/vnd.coxauto.v1+json'
+                ]
+            ]
+        );
+
+        return $response['tradeInVehicleIds'];
+    }
+
+    /**
+     * Get the list of trade-in vehicles.
+     *
+     * @param Dealer $dealer
+     * @param User $user
+     *
+     * @return array
+     */
+    public function getTradeIn(Dealer $dealer, User $user) : array
+    {
+        $client = new Client($dealer->id, $user->id);
+
+        $response = $client->get(
+            '/vehicles/trade?leadId=' . $this->id,
+            [
+                'headers' => [
+                    'Accept' => 'application/vnd.coxauto.v1+json'
+                ]
+            ]
+        );
+
+        return $response['items'];
     }
 }

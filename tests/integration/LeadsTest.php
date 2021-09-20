@@ -253,4 +253,212 @@ class LeadsTest extends PhalconUnitTestCase
         $updateLead = $newLead->addNotes($dealer, $user, 'test notes');
         $this->assertInstanceOf(Lead::class, $updateLead);
     }
+
+    public function testStartShowRoom()
+    {
+        $dealer = Dealer::getById(1);
+        $user = Dealer::getUser($dealer, 9);
+        $faker = Factory::create();
+
+        $contact = [
+            'ContactInformation' => [
+                'title' => $faker->title(),
+                'FirstName' => $faker->firstName(),
+                'LastName' => $faker->lastName,
+                'CompanyName' => $faker->company,
+                'CompanyType' => $faker->companySuffix,
+                'Emails' => [
+                    [
+                        'EmailId' => 0,
+                        'EmailAddress' => $faker->email,
+                        'EmailType' => 'primary'
+                    ]
+                ],
+                'Phones' => [
+                    [
+                        'PhoneId' => 0,
+                        'PhoneType' => 'Cell',
+                        'Number' => '8093505188000'
+                    ]
+                ]
+            ],
+            'LeadInformation' => [
+                'CurrentSalesRepUserId' => 0,
+                'SplitSalesRepUserId' => 0,
+                'LeadSourceId' => 0,
+                'LeadTypeId' => 0,
+                'OnShowRoom' => false,
+                'SaleNotes' => '',
+            ]
+        ];
+
+        $contact = Contact::create(
+            $dealer,
+            $user,
+            $contact
+        );
+
+        $lead = [
+            'leadSource' => 55694,
+            'leadType' => 'INTERNET',
+            'contact' => $contact->id,
+            'isHot' => true
+        ];
+
+        $newLead = Lead::create($dealer, $user, $lead);
+        $lead = Lead::getById($dealer, $user, $newLead->id);
+
+        $showroom = $lead->startShowRoom($dealer, $user);
+
+        $this->assertInstanceOf(Lead::class, $showroom);
+        $this->assertFalse((bool) $lead->isOnShowroom);
+        $this->assertTrue((bool) $showroom->isOnShowroom);
+    }
+
+    public function testAddTradeVehicles()
+    {
+        $dealer = Dealer::getById(1);
+        $user = Dealer::getUser($dealer, 9);
+        $faker = Factory::create();
+
+        $contact = [
+            'ContactInformation' => [
+                'title' => $faker->title(),
+                'FirstName' => $faker->firstName(),
+                'LastName' => $faker->lastName,
+                'CompanyName' => $faker->company,
+                'CompanyType' => $faker->companySuffix,
+                'Emails' => [
+                    [
+                        'EmailId' => 0,
+                        'EmailAddress' => $faker->email,
+                        'EmailType' => 'primary'
+                    ]
+                ],
+                'Phones' => [
+                    [
+                        'PhoneId' => 0,
+                        'PhoneType' => 'Cell',
+                        'Number' => '8093505188000'
+                    ]
+                ]
+            ],
+            'LeadInformation' => [
+                'CurrentSalesRepUserId' => 0,
+                'SplitSalesRepUserId' => 0,
+                'LeadSourceId' => 0,
+                'LeadTypeId' => 0,
+                'OnShowRoom' => false,
+                'SaleNotes' => '',
+            ]
+        ];
+
+        $contact = Contact::create(
+            $dealer,
+            $user,
+            $contact
+        );
+
+        $lead = [
+            'leadSource' => 55694,
+            'leadType' => 'INTERNET',
+            'contact' => $contact->id,
+            'isHot' => true
+        ];
+
+        $newLead = Lead::create($dealer, $user, $lead);
+        $lead = Lead::getById($dealer, $user, $newLead->id);
+
+        $showroom = $lead->addTradeIn(
+            $dealer,
+            $user,
+            [
+                'vin' => '2HGED6349LH506746',
+                'year' => 1990,
+                'make' => 'Honda',
+                'model' => 'Civic',
+                'mileage' => 1000,
+                'value' => 1000,
+                'condition' => 'UNKNOWN',
+                'description' => 'good',
+            ]
+        );
+
+        $this->assertIsArray($showroom);
+    }
+
+    public function testGetTradeVehicles()
+    {
+        $dealer = Dealer::getById(1);
+        $user = Dealer::getUser($dealer, 9);
+        $faker = Factory::create();
+
+        $contact = [
+            'ContactInformation' => [
+                'title' => $faker->title(),
+                'FirstName' => $faker->firstName(),
+                'LastName' => $faker->lastName,
+                'CompanyName' => $faker->company,
+                'CompanyType' => $faker->companySuffix,
+                'Emails' => [
+                    [
+                        'EmailId' => 0,
+                        'EmailAddress' => $faker->email,
+                        'EmailType' => 'primary'
+                    ]
+                ],
+                'Phones' => [
+                    [
+                        'PhoneId' => 0,
+                        'PhoneType' => 'Cell',
+                        'Number' => '8093505188000'
+                    ]
+                ]
+            ],
+            'LeadInformation' => [
+                'CurrentSalesRepUserId' => 0,
+                'SplitSalesRepUserId' => 0,
+                'LeadSourceId' => 0,
+                'LeadTypeId' => 0,
+                'OnShowRoom' => false,
+                'SaleNotes' => '',
+            ]
+        ];
+
+        $contact = Contact::create(
+            $dealer,
+            $user,
+            $contact
+        );
+
+        $lead = [
+            'leadSource' => 55694,
+            'leadType' => 'INTERNET',
+            'contact' => $contact->id,
+            'isHot' => true
+        ];
+
+        $newLead = Lead::create($dealer, $user, $lead);
+        $lead = Lead::getById($dealer, $user, $newLead->id);
+
+        $showroom = $lead->addTradeIn(
+            $dealer,
+            $user,
+            [
+                'vin' => '2HGED6349LH506746',
+                'year' => 1990,
+                'make' => 'Honda',
+                'model' => 'Civic',
+                'mileage' => 1000,
+                'value' => 1000,
+                'condition' => 'UNKNOWN',
+                'description' => 'good',
+            ]
+        );
+
+        $tradeIn = $lead->getTradeIn($dealer, $user);
+
+        $this->assertIsArray($tradeIn);
+        $this->assertTrue(count($tradeIn) > 0);
+    }
 }
