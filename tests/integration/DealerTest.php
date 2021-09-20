@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kanvas\VinSolutions\Integration;
+namespace Kanvas\VinSolutions\Tests\Integration;
 
 use Kanvas\VinSolutions\Dealers\Dealer;
 use Kanvas\VinSolutions\Dealers\User;

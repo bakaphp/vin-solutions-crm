@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kanvas\VinSolutions\Integration;
+namespace Kanvas\VinSolutions\Tests\Integration;
 
 use Kanvas\VinSolutions\Leads\Status;
 use PhalconUnitTestCase;
