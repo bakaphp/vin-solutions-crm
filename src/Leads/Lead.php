@@ -120,4 +120,23 @@ class Lead
         $data['LeadId'] = $this->id;
         return new self($data);
     }
+
+
+    public function addNotes(Dealer $dealer, User $user, string $notes) : self
+    {
+        $client = new Client($dealer->id, $user->id);
+        $client->useDigitalShowRoomKey();
+        $data = [];
+        $data['DealerId'] = $dealer->id;
+        $data['UserId'] = $user->id;
+        $data['Note'] = $notes;
+
+        $response = $client->put(
+            '/gateway/v1/lead/' . $this->id,
+            json_encode($data),
+        );
+
+        $data['LeadId'] = $this->id;
+        return new self($data);
+    }
 }
