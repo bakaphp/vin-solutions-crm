@@ -103,10 +103,9 @@ class Client
      */
     protected function setHeaders(array $headers) : array
     {
-        $headers['headers'] = [
-            'api_key' => $this->apiKey,
-            'Authorization' => 'Bearer ' . $this->auth()['access_token'],
-        ];
+        $headers['headers']['api_key'] = $this->apiKey;
+        $headers['headers']['Authorization'] = 'Bearer ' . $this->auth()['access_token'];
+
         return $headers;
     }
 

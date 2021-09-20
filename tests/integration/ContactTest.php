@@ -155,7 +155,6 @@ class ContactTest extends PhalconUnitTestCase
             $contact
         );
 
-
         $contactInfo = LeadsContact::getById($dealer, $user, $contact->id);
         $contactInfo->information['FirstName'] = $faker->firstName();
         $contactInfo->information['LastName'] = $faker->lastName;
@@ -164,13 +163,11 @@ class ContactTest extends PhalconUnitTestCase
 
         $contactInfoNew = LeadsContact::getById($dealer, $user, $contactUpdated->id);
 
-
-
         $this->assertInstanceOf(LeadsContact::class, $contactInfo);
         $this->assertTrue($contactInfo->id > 0);
 
         $this->assertEquals($contactInfo->information['FirstName'], $contactInfoNew->information['FirstName']);
         $this->assertEquals($contactInfo->information['LastName'], $contactInfoNew->information['LastName']);
-        //$this->assertEquals($contactInfo->email[' '], $contactInfoNew->information['LastName']);
+        $this->assertEquals($contactInfo->emails[0]['EmailAddress'], $contactInfoNew->emails[0]['EmailAddress']);
     }
 }
