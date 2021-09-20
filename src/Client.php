@@ -155,4 +155,29 @@ class Client
             true
         );
     }
+
+    /**
+     * Post to the api.
+     *
+     * @param string $path
+     * @param string $params
+     *
+     * @return array
+     */
+    public function put(string $path, string $json) : array
+    {
+        $params = $this->setHeaders([]);
+        $params['headers']['Content-Type'] = 'application/json';
+        $params['body'] = $json;
+
+        $response = $this->client->put(
+            $path,
+            $params
+        );
+
+        return !empty($response->getBody()->getContents()) ? json_decode(
+            $response->getBody()->getContents(),
+            true
+        ) : [];
+    }
 }
