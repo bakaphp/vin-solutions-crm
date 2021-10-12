@@ -461,4 +461,33 @@ class LeadsTest extends PhalconUnitTestCase
         $this->assertIsArray($tradeIn);
         $this->assertTrue(count($tradeIn) > 0);
     }
+
+    public function testGetAllLeads()
+    {
+        $dealer = Dealer::getById(1);
+        $user = Dealer::getUser($dealer, 9);
+        $leads = Lead::getAll($dealer, $user);
+
+        $this->assertIsArray($leads);
+        $this->assertTrue(count($leads) > 0);
+    }
+
+    public function testGetAllLeadsPagination()
+    {
+        $dealer = Dealer::getById(1);
+        $user = Dealer::getUser($dealer, 9);
+
+        $params = [
+            'leadStatusTypeId' => 1,
+            'pageNumber' => 2,
+            'pageSize' => 50,
+        ];
+
+        $leads = Lead::getAll($dealer, $user, $params);
+
+        $this->assertIsArray($leads);
+        $this->assertTrue(count($leads) > 0);
+        $this->assertTrue($leads['PagingInfo']['PageSize'] === $params['pageSize']);
+        $this->assertTrue($leads['PagingInfo']['PageNumber'] === $params['pageNumber']);
+    }
 }
