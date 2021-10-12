@@ -37,6 +37,33 @@ class Lead
     }
 
     /**
+     * Get all the leads for the given dealer.
+     *
+     * @param Dealer $dealer
+     * @param User $user
+     * @param array $params
+     *
+     * @return array
+     */
+    public static function getAll(Dealer $dealer, User $user, array $params = []) : array
+    {
+        $client = new Client($dealer->id, $user->id);
+        $client->useDigitalShowRoomKey();
+
+        $data = [];
+        $data['DealerId'] = $dealer->id;
+        $data['UserId'] = $user->id;
+
+        $params = http_build_query($params);
+
+        $response = $client->get(
+            '/gateway/v1/lead?dealerId=' . $dealer->id . '&userId=' . $user->id . '&' . $params,
+        );
+
+        return $response;
+    }
+
+    /**
      * Get a contact by its ID.
      *
      * @param Dealer $dealer

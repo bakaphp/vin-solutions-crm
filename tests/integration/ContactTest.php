@@ -170,4 +170,35 @@ class ContactTest extends PhalconUnitTestCase
         $this->assertEquals($contactInfo->information['LastName'], $contactInfoNew->information['LastName']);
         $this->assertEquals($contactInfo->emails[0]['EmailAddress'], $contactInfoNew->emails[0]['EmailAddress']);
     }
+
+    public function testGetAllContacts()
+    {
+        $dealer = Dealer::getById(1);
+        $user = Dealer::getUser($dealer, 9);
+        $contacts = LeadsContact::getAll($dealer, $user, 'gmail');
+
+        $this->assertIsArray($contacts);
+        $this->assertTrue(count($contacts) > 0);
+    }
+
+    public function testGetAllContactsWithParams()
+    {
+        $dealer = Dealer::getById(1);
+        $user = Dealer::getUser($dealer, 9);
+
+        $params = [
+            'pageNumber' => 2,
+            'pageSize' => 50,
+        ];
+
+        $contacts = LeadsContact::getAll(
+            $dealer,
+            $user,
+            'gmail',
+            $params,
+        );
+
+        $this->assertIsArray($contacts);
+        $this->assertTrue(count($contacts) === $params['pageSize']);
+    }
 }
