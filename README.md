@@ -1,7 +1,6 @@
 Kanvas Packages
 ============
-
-[![Latest Stable Version](https://poser.pugx.org/kanvas/packages/v)](//packagist.org/packages/kanvas/packages) [![Total Downloads](https://poser.pugx.org/kanvas/packages/downloads)](//packagist.org/packages/kanvas/packages) [![Latest Unstable Version](https://poser.pugx.org/kanvas/packages/v/unstable)](//packagist.org/packages/kanvas/packages) 
+[![Latest Stable Version](http://poser.pugx.org/kanvas/vin-solutions-crm/v)](https://packagist.org/packages/kanvas/vin-solutions-crm) [![Total Downloads](http://poser.pugx.org/kanvas/vin-solutions-crm/downloads)](https://packagist.org/packages/kanvas/vin-solutions-crm) [![Latest Unstable Version](http://poser.pugx.org/kanvas/vin-solutions-crm/v/unstable)](https://packagist.org/packages/kanvas/vin-solutions-crm) [![License](http://poser.pugx.org/kanvas/vin-solutions-crm/license)](https://packagist.org/packages/kanvas/vin-solutions-crm) [![PHP Version Require](http://poser.pugx.org/kanvas/vin-solutions-crm/require/php)](https://packagist.org/packages/kanvas/vin-solutions-crm)
 [![Tests](https://github.com/bakaphp/vin-solutions-crm/workflows/Tests/badge.svg?branch=development)](https://github.com/bakaphp/vin-solutions-crm/actions?query=workflow%3ATests)
 
 VinSolutions CRM PHP Wrapper for Kanvas Apps
