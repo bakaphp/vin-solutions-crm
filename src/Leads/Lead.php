@@ -68,7 +68,7 @@ class Lead
      *
      * @param Dealer $dealer
      * @param User $user
-     * @param int $contactId
+     * @param int $leadsId
      *
      * @return self
      */
@@ -123,7 +123,6 @@ class Lead
      *
      * @param Dealer $dealer
      * @param User $user
-     * @param array $data
      *
      * @return self
      */
