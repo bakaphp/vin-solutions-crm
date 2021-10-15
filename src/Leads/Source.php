@@ -12,6 +12,8 @@ class Source
     public int $id;
     public string $href;
     public string $name;
+    public int $itemsPerPage = 0;
+    public int $total = 0;
 
     /**
      * Initialize.
@@ -23,6 +25,8 @@ class Source
         $this->id = $data['leadSourceId'];
         $this->href = $data['href'];
         $this->name = $data['leadSourceName'];
+        $this->total = $data['count'] ?? 0;
+        $this->itemsPerPage = $data['limit'] ?? 0;
     }
 
     /**
@@ -30,16 +34,19 @@ class Source
      *
      * @param Dealer $dealer
      * @param User $user
+     * @param array $params
      *
      * @return array
      */
-    public static function getAll(Dealer $dealer, User $user) : array
+    public static function getAll(Dealer $dealer, User $user, array $params = []) : array
     {
         $client = new Client($dealer->id, $user->id);
+        $data = [];
         $data['DealerId'] = $dealer->id;
         $data['UserId'] = $user->id;
+        $params = http_build_query($params);
 
-        $response = $client->get('/leadSources/?dealerId=' . $dealer->id, [
+        $response = $client->get('/leadSources/?dealerId=' . $dealer->id . '&' . $params, [
             'headers' => [
                 'Accept' => 'application/vnd.coxauto.v1+json'
             ]
@@ -48,6 +55,8 @@ class Source
         $source = [];
         if (count($response)) {
             foreach ($response['items'] as $item) {
+                $item['count'] = $response['count'];
+                $item['itemsPerPage'] = $response['limit'];
                 $source[$item['leadSourceId']] = new self($item);
             }
         }
@@ -59,7 +68,7 @@ class Source
      *
      * @param Dealer $dealer
      * @param User $user
-     * @param int $contactId
+     * @param int $sourceId
      *
      * @return Source
      */
