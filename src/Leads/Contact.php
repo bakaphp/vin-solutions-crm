@@ -128,8 +128,35 @@ class Contact
         $data['DealerId'] = $dealer->id;
         $data['UserId'] = $user->id;
 
-        $this->information['Emails'] = $this->emails;
-        $this->information['Phones'] = $this->phones;
+        //clean information of emails
+        if (!empty($this->emails)) {
+            foreach ($this->emails as $key => $value) {
+                if ($this->information['Emails'][$key]['EmailAddress'] !== $this->emails[$key]['EmailAddress']) {
+                    $this->information['Emails'][$key] = $this->emails[$key];
+                } else {
+                    unset($this->information['Emails'][$key]);
+                }
+            }
+
+            if (empty($this->information['Emails'])) {
+                unset($this->information['Emails']);
+            }
+        }
+
+        //clean information of phone
+        if (!empty($this->phones)) {
+            foreach ($this->phones as $key => $value) {
+                if ($this->information['Phones'][$key]['Number'] !== $this->phones[$key]['Number']) {
+                    $this->information['Phones'][$key] = $this->phones[$key];
+                } else {
+                    unset($this->information['Phones'][$key]);
+                }
+            }
+
+            if (empty($this->information['Phones'])) {
+                unset($this->information['Phones']);
+            }
+        }
 
         $data['ContactInformation'] = $this->information;
 
@@ -137,7 +164,7 @@ class Contact
             $data['LeadInformation'] = $this->leadInformation;
         }
 
-        if (isset($data['ContactInformation']['Phones'])) {
+        if (!empty($this->phones) && isset($data['ContactInformation']['Phones'])) {
             $data['ContactInformation']['Phones'][0]['Number'] = Str::limit(
                 preg_replace('/[^0-9]/', '', $data['ContactInformation']['Phones'][0]['Number']),
                 10,
