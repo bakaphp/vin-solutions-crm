@@ -19,6 +19,7 @@ class Contact
     public array $smsPreferences = [];
     public array $leadInformation = [];
     public array $personalInformation = [];
+    public array $addresses = [];
 
     /**
      * Initialize.
@@ -36,6 +37,7 @@ class Contact
         $this->dealerTeam = $data['DealerTeam'] ?? [];
         $this->leadInformation = $data['leadInformation'] ?? [];
         $this->personalInformation = $data['PersonalInformation'] ?? [];
+        $this->addresses = $data['Addresses'] ?? [];
     }
 
     /**
@@ -168,6 +170,10 @@ class Contact
 
         if (!empty($this->personalInformation)) {
             $data['PersonalInformation'] = $this->personalInformation;
+        }
+
+        if (!empty($this->addresses)) {
+            $data['ContactInformation']['Addresses'] = $this->addresses;
         }
 
         if (!empty($this->phones) && isset($data['ContactInformation']['Phones'])) {
