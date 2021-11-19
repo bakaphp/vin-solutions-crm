@@ -19,6 +19,7 @@ class Contact
     public array $smsPreferences = [];
     public array $leadInformation = [];
     public array $personalInformation = [];
+    public array $licenseData = [];
     public array $addresses = [];
 
     /**
@@ -38,6 +39,7 @@ class Contact
         $this->leadInformation = $data['leadInformation'] ?? [];
         $this->personalInformation = $data['PersonalInformation'] ?? [];
         $this->addresses = $data['Addresses'] ?? [];
+        $this->licenseData = $data['LicenseData'] ?? [];
     }
 
     /**
@@ -166,6 +168,10 @@ class Contact
 
         if (!empty($this->leadInformation)) {
             $data['LeadInformation'] = $this->leadInformation;
+        }
+
+        if (!empty($this->licenseData)) {
+            $data['LicenseData'] = $this->licenseData;
         }
 
         if (!empty($this->personalInformation)) {
