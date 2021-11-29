@@ -183,11 +183,13 @@ class Contact
         }
 
         if (!empty($this->phones) && isset($data['ContactInformation']['Phones'])) {
-            $data['ContactInformation']['Phones'][0]['Number'] = Str::limit(
-                preg_replace('/[^0-9]/', '', $data['ContactInformation']['Phones'][0]['Number']),
-                10,
-                ''
-            );
+            if (isset($data['ContactInformation']['Phones'][0])) {
+                $data['ContactInformation']['Phones'][0]['Number'] = Str::limit(
+                    preg_replace('/[^0-9]/', '', $data['ContactInformation']['Phones'][0]['Number']),
+                    10,
+                    ''
+                );
+            }
         }
 
         $response = $client->put('/gateway/v1/contact/' . $this->id, json_encode($data));
