@@ -179,7 +179,15 @@ class Contact
         }
 
         if (!empty($this->addresses)) {
-            $data['ContactInformation']['Addresses'] = $this->addresses;
+            foreach ($this->addresses as $key => $single) {
+                if (empty(trim($single['State']))) {
+                    unset($this->addresses[$key]);
+                }
+            }
+
+            if (!empty($this->addresses)) {
+                $data['ContactInformation']['Addresses'] = $this->addresses;
+            }
         }
 
         if (!empty($this->phones) && isset($data['ContactInformation']['Phones'])) {
