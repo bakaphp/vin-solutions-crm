@@ -179,8 +179,8 @@ class Contact
         }
 
         if (!empty($this->addresses)) {
-            foreach ($this->addresses as $key => $single) {
-                if (empty(trim($single['State']))) {
+            foreach ($this->addresses as $key => $address) {
+                if (empty(trim($address['State']))) {
                     unset($this->addresses[$key]);
                 }
             }
