@@ -112,6 +112,11 @@ class Contact
             );
         }
 
+        if (isset($data['ContactInformation']['Addresses'])
+            && empty($data['ContactInformation']['Addresses'])) {
+            unset($data['ContactInformation']['Addresses']);
+        }
+
         $response = $client->post('/gateway/v1/contact', json_encode($data));
 
         return new self($response);
