@@ -14,8 +14,9 @@ class LeadsTest extends PhalconUnitTestCase
 {
     public function testCreateLead()
     {
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
+
         $faker = Factory::create();
 
         $contact = [
@@ -72,8 +73,9 @@ class LeadsTest extends PhalconUnitTestCase
 
     public function testGetById()
     {
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
+
         $faker = Factory::create();
 
         $contact = [
@@ -132,8 +134,9 @@ class LeadsTest extends PhalconUnitTestCase
 
     public function testUpdateLead()
     {
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
+
         $faker = Factory::create();
 
         $contact = [
@@ -198,8 +201,9 @@ class LeadsTest extends PhalconUnitTestCase
 
     public function testAddNotes()
     {
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
+
         $faker = Factory::create();
 
         $contact = [
@@ -256,8 +260,9 @@ class LeadsTest extends PhalconUnitTestCase
 
     public function testStartShowRoom()
     {
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
+
         $faker = Factory::create();
 
         $contact = [
@@ -317,8 +322,9 @@ class LeadsTest extends PhalconUnitTestCase
 
     public function testAddTradeVehicles()
     {
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
+
         $faker = Factory::create();
 
         $contact = [
@@ -389,8 +395,9 @@ class LeadsTest extends PhalconUnitTestCase
 
     public function testGetTradeVehicles()
     {
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
+
         $faker = Factory::create();
 
         $contact = [
@@ -464,8 +471,9 @@ class LeadsTest extends PhalconUnitTestCase
 
     public function testGetAllLeads()
     {
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
+
         $leads = Lead::getAll($dealer, $user);
 
         $this->assertIsArray($leads);
@@ -474,8 +482,9 @@ class LeadsTest extends PhalconUnitTestCase
 
     public function testGetAllLeadsPagination()
     {
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
+
 
         $params = [
             'leadStatusTypeId' => 1,

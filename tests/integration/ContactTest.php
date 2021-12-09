@@ -46,11 +46,11 @@ class ContactTest extends PhalconUnitTestCase
                 'SaleNotes' => '',
             ]
         ];
-        $dealer = Dealer::getById(1);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
 
         $contact = LeadsContact::create(
             $dealer,
-            Dealer::getUser($dealer, 9),
+            Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID')),
             $contact
         );
 
@@ -93,8 +93,8 @@ class ContactTest extends PhalconUnitTestCase
                 'SaleNotes' => '',
             ]
         ];
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
 
         $contact = LeadsContact::create(
             $dealer,
@@ -103,7 +103,6 @@ class ContactTest extends PhalconUnitTestCase
         );
 
         $contactInfo = LeadsContact::getById($dealer, $user, $contact->id);
-
 
         $this->assertInstanceOf(LeadsContact::class, $contactInfo);
         $this->assertTrue($contactInfo->id > 0);
@@ -146,8 +145,9 @@ class ContactTest extends PhalconUnitTestCase
                 'SaleNotes' => '',
             ]
         ];
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
 
         $contact = LeadsContact::create(
             $dealer,
@@ -173,8 +173,9 @@ class ContactTest extends PhalconUnitTestCase
 
     public function testGetAllContacts()
     {
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
+
         $contacts = LeadsContact::getAll($dealer, $user, 'gmail');
 
         $this->assertIsArray($contacts);
@@ -183,8 +184,8 @@ class ContactTest extends PhalconUnitTestCase
 
     public function testGetAllContactsWithParams()
     {
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
 
         $params = [
             'pageNumber' => 2,
