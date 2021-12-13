@@ -117,6 +117,10 @@ class Contact
             unset($data['ContactInformation']['Addresses']);
         }
 
+        if (!isset($data['ContactInformation']['DealerId'])) {
+            $data['ContactInformation']['DealerId'] = $data['DealerId'];
+        }
+
         $response = $client->post('/gateway/v1/contact', json_encode($data));
 
         return new self($response);
