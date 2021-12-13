@@ -55,6 +55,9 @@ class Client
         $this->client = new GuzzleClient(
             [
                 'base_uri' => $this->baseUrl,
+                'curl.options' => [
+                    CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2
+                ]
             ]
         );
     }
