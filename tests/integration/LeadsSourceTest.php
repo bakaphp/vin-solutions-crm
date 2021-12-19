@@ -12,8 +12,9 @@ class LeadsSourceTest extends PhalconUnitTestCase
 {
     public function testGetAll()
     {
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
+
 
         $sources = Source::getAll($dealer, $user);
 
@@ -24,8 +25,9 @@ class LeadsSourceTest extends PhalconUnitTestCase
 
     public function testGetById()
     {
-        $dealer = Dealer::getById(1);
-        $user = Dealer::getUser($dealer, 9);
+        $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
+        $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
+
 
         $source = Source::getById($dealer, $user, 760809);
 

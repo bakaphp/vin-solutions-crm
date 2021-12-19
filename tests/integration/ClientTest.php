@@ -11,7 +11,10 @@ class RequestTest extends PhalconUnitTestCase
 {
     public function testApiLogin()
     {
-        $client = new Client(1, 9);
+        $client = new Client(
+            (int) getenv('VINSOLUTIONS_DEALER_ID'),
+            (int) getenv('VINSOLUTIONS_USER_ID'),
+        );
         $token = $client->auth();
 
         $this->assertIsArray($token);
@@ -22,7 +25,10 @@ class RequestTest extends PhalconUnitTestCase
 
     public function testApiGet()
     {
-        $client = new Client(1, 9);
+        $client = new  Client(
+            (int) getenv('VINSOLUTIONS_DEALER_ID'),
+            (int) getenv('VINSOLUTIONS_USER_ID'),
+        );
         $response = $client->get('/gateway/v1/organization/dealers');
 
         $this->assertIsArray($response);
@@ -31,12 +37,15 @@ class RequestTest extends PhalconUnitTestCase
 
     public function testPost()
     {
-        $client = new Client(1, 9);
+        $client = new  Client(
+            (int) getenv('VINSOLUTIONS_DEALER_ID'),
+            (int) getenv('VINSOLUTIONS_USER_ID'),
+        );
         $json = '{
-            "DealerId": 1,
-            "UserId": 9,
+            "DealerId": ' . getenv('VINSOLUTIONS_DEALER_ID') . ',
+            "UserId": ' . getenv('VINSOLUTIONS_USER_ID') . ',
             "ContactInformation": {
-              "DealerId": 1,
+              "DealerId": ' . getenv('VINSOLUTIONS_DEALER_ID') . ',
               "Title": "string",
               "FirstName": "string",
               "MiddleName": "string",
