@@ -17,6 +17,7 @@ class Lead
     public int $contactId = 0;
     public int $isHot = 0;
     public int $isOnShowroom = 0;
+    public int $coBuyerContact = 0;
 
 
     /**
@@ -33,6 +34,7 @@ class Lead
         $this->leadType = $data['LeadType'] ?? 0;
         $this->contactId = $data['CustomerId'] ?? 0;
         $this->isHot = isset($data['IsHot']) ? (int) $data['IsHot'] : 0;
+        $this->coBuyerContact = isset($data['coBuyerContact']) && (int) $data['coBuyerContact'] > 0 ? (int) $data['coBuyerContact'] : 0;
         $this->isOnShowroom = isset($data['IsOnShowroom']) ? (int) $data['IsOnShowroom'] : 0;
     }
 
@@ -77,6 +79,7 @@ class Lead
         $client = new Client($dealer->id, $user->id);
         $client->useDigitalShowRoomKey();
 
+        $data = [];
         $data['DealerId'] = $dealer->id;
         $data['UserId'] = $user->id;
 
@@ -132,6 +135,10 @@ class Lead
 
         $data = [];
         $data['isHot'] = $this->isHot ? true : false;
+
+        if ($this->coBuyerContact !== 0) {
+            $data['coBuyerContact'] = 'https://api.vinsolutions.com/contacts/id/' . $this->coBuyerContact . '?dealerid=' . $dealer->id;
+        }
 
         $response = $client->put(
             '/leads/id/' . $this->id,
