@@ -38,7 +38,7 @@ class Interest
     {
         $client = new Client($dealer->id, $user->id);
 
-        $response = $client->get('/vehicles/interest/?leadId=' . $leadsId, [
+        $response = $client->get('/vehicles/interest?leadId=' . $leadsId, [
             'headers' => [
                 'Accept' => 'application/vnd.coxauto.v1+json'
             ]
