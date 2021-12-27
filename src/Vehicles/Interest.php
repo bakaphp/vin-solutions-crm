@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Kanvas\VinSolutions\Leads;
+namespace Kanvas\VinSolutions\Vehicles;
 
 use Kanvas\VinSolutions\Client;
 use Kanvas\VinSolutions\Dealers\Dealer;
