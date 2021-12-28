@@ -9,12 +9,11 @@ use Kanvas\VinSolutions\Dealers\Dealer;
 use Kanvas\VinSolutions\Leads\Contact;
 use Kanvas\VinSolutions\Leads\Lead;
 use Kanvas\VinSolutions\Vehicles\TradeIn;
-
 use PhalconUnitTestCase;
 
 class VehicleTradeInTest extends PhalconUnitTestCase
 {
-    public function testGetLeadsVehicleInfo()
+    public function testGetLeadsTradeIn()
     {
         $dealer = Dealer::getById((int) getenv('VINSOLUTIONS_DEALER_ID'));
         $user = Dealer::getUser($dealer, (int) getenv('VINSOLUTIONS_USER_ID'));
@@ -68,11 +67,10 @@ class VehicleTradeInTest extends PhalconUnitTestCase
 
 
         $newLead = Lead::create($dealer, $user, $lead);
-        $vehicleInterest = TradeIn::getByLeadId($dealer, $user, $newLead->id);
+        $tradeIn = TradeIn::getByLeadId($dealer, $user, $newLead->id);
 
-        // $this->assertIsArray($vehicleInterest);
-        $this->assertTrue($vehicleInterest instanceof TradeIn);
-        $this->assertTrue(property_exists($vehicleInterest, 'items'));
-        $this->assertTrue($vehicleInterest->count > 0);
+        $this->assertTrue($tradeIn instanceof TradeIn);
+        $this->assertTrue(property_exists($tradeIn, 'items'));
+        $this->assertTrue($tradeIn->count > 0);
     }
 }

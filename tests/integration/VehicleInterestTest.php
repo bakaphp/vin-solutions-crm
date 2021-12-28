@@ -70,7 +70,6 @@ class VehicleInterestTest extends PhalconUnitTestCase
         $newLead = Lead::create($dealer, $user, $lead);
         $vehicleInterest = Interest::getByLeadId($dealer, $user, $newLead->id);
 
-        // $this->assertIsArray($vehicleInterest);
         $this->assertTrue($vehicleInterest instanceof Interest);
         $this->assertTrue(property_exists($vehicleInterest, 'items'));
         $this->assertTrue($vehicleInterest->count > 0);
