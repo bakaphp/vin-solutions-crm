@@ -7,7 +7,7 @@ use Kanvas\VinSolutions\Client;
 use Kanvas\VinSolutions\Dealers\Dealer;
 use Kanvas\VinSolutions\Dealers\User;
 
-class Interest
+class TradeIn
 {
     public string $href;
     public int $count;
@@ -32,18 +32,18 @@ class Interest
      * @param User $user
      * @param int $leadsId
      *
-     * @return Interest
+     * @return TradeIn
      */
-    public static function getByLeadId(Dealer $dealer, User $user, int $leadsId) : Interest
+    public static function getByLeadId(Dealer $dealer, User $user, int $leadsId) : TradeIn
     {
         $client = new Client($dealer->id, $user->id);
 
-        $response = $client->get('/vehicles/interest?leadId=' . $leadsId, [
+        $response = $client->get('/vehicles/trade?leadId=' . $leadsId, [
             'headers' => [
                 'Accept' => 'application/vnd.coxauto.v1+json'
             ]
         ]);
 
-        return new Interest($response);
+        return new TradeIn($response);
     }
 }
