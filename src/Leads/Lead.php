@@ -228,7 +228,7 @@ class Lead
             ]
         );
 
-        return $response['tradeInVehicleIds'];
+        return $response;
     }
 
     /**
