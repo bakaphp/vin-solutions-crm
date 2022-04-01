@@ -94,7 +94,7 @@ class Interest
      *
      * @return bool
      */
-    public function update(Dealer $dealer, User $user, string $id, array $data) : bool
+    public static function update(Dealer $dealer, User $user, string $id, array $data) : bool
     {
         $client = new Client($dealer->id, $user->id);
 
