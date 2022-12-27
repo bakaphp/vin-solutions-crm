@@ -189,7 +189,7 @@ class Contact
 
         if (!empty($this->addresses)) {
             foreach ($this->addresses as $key => $address) {
-                if (empty(trim($address['State']))) {
+                if ($address['State'] !== null && empty(trim($address['State']))) {
                     unset($this->addresses[$key]);
                 }
             }
