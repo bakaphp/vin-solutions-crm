@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Kanvas\VinSolutions\Leads;
@@ -19,11 +20,8 @@ class Lead
     public int $isOnShowroom = 0;
     public int $coBuyerContact = 0;
 
-
     /**
      * Initialize.
-     *
-     * @param array $data
      */
     public function __construct(array $data)
     {
@@ -40,14 +38,8 @@ class Lead
 
     /**
      * Get all the leads for the given dealer.
-     *
-     * @param Dealer $dealer
-     * @param User $user
-     * @param array $params
-     *
-     * @return array
      */
-    public static function getAll(Dealer $dealer, User $user, array $params = []) : array
+    public static function getAll(Dealer $dealer, User $user, array $params = []): array
     {
         $client = new Client($dealer->id, $user->id);
         $client->useDigitalShowRoomKey();
@@ -67,14 +59,8 @@ class Lead
 
     /**
      * Get a contact by its ID.
-     *
-     * @param Dealer $dealer
-     * @param User $user
-     * @param int $leadsId
-     *
-     * @return self
      */
-    public static function getById(Dealer $dealer, User $user, int $leadsId) : self
+    public static function getById(Dealer $dealer, User $user, int $leadsId): self
     {
         $client = new Client($dealer->id, $user->id);
         $client->useDigitalShowRoomKey();
@@ -92,14 +78,8 @@ class Lead
 
     /**
      * Create a new contact.
-     *
-     * @param Dealer $dealer
-     * @param User $user
-     * @param array $data
-     *
-     * @return self
      */
-    public static function create(Dealer $dealer, User $user, array $data) : self
+    public static function create(Dealer $dealer, User $user, array $data): self
     {
         $client = new Client($dealer->id, $user->id);
         $data['DealerId'] = $dealer->id;
@@ -113,8 +93,8 @@ class Lead
             json_encode($data),
             [
                 'headers' => [
-                    'Content-Type' => 'application/vnd.coxauto.v3+json'
-                ]
+                    'Content-Type' => 'application/vnd.coxauto.v3+json',
+                ],
             ]
         );
 
@@ -123,13 +103,8 @@ class Lead
 
     /**
      * Create a new contact.
-     *
-     * @param Dealer $dealer
-     * @param User $user
-     *
-     * @return self
      */
-    public function update(Dealer $dealer, User $user) : self
+    public function update(Dealer $dealer, User $user): self
     {
         $client = new Client($dealer->id, $user->id);
 
@@ -145,17 +120,17 @@ class Lead
             json_encode($data),
             [
                 'headers' => [
-                    'Content-Type' => 'application/vnd.coxauto.v3+json'
-                ]
+                    'Content-Type' => 'application/vnd.coxauto.v3+json',
+                ],
             ]
         );
 
         $data['LeadId'] = $this->id;
+
         return new self($data);
     }
 
-
-    public function addNotes(Dealer $dealer, User $user, string $notes) : self
+    public function addNotes(Dealer $dealer, User $user, string $notes): self
     {
         $client = new Client($dealer->id, $user->id);
         $client->useDigitalShowRoomKey();
@@ -170,18 +145,14 @@ class Lead
         );
 
         $data['LeadId'] = $this->id;
+
         return new self($data);
     }
 
     /**
      * Start a show room.
-     *
-     * @param Dealer $dealer
-     * @param User $user
-     *
-     * @return self
      */
-    public function startShowRoom(Dealer $dealer, User $user) : self
+    public function startShowRoom(Dealer $dealer, User $user): self
     {
         $client = new Client($dealer->id, $user->id);
         $client->useDigitalShowRoomKey();
@@ -200,16 +171,32 @@ class Lead
         return new self($response);
     }
 
+    public static function getCoBuyer(Dealer $dealer, User $user, int $leadsId): ?string
+    {
+        $client = new Client($dealer->id, $user->id);
+        $data['DealerId'] = $dealer->id;
+        $data['UserId'] = $user->id;
+
+        $response = $client->get(
+            '/leads/id/' . $leadsId,
+            [
+                'headers' => [
+                    'Accept' => 'application/vnd.coxauto.v3+json',
+                ],
+            ]
+        );
+
+        if (preg_match("/\/id\/(\d+)/", $response['coBuyerContact'], $matches)) {
+            return $matches[1];
+        }
+
+        return null;
+    }
+
     /**
      * Add a trade in to the vehicle.
-     *
-     * @param Dealer $dealer
-     * @param User $user
-     * @param array $data
-     *
-     * @return array
      */
-    public function addTradeIn(Dealer $dealer, User $user, array $data) : array
+    public function addTradeIn(Dealer $dealer, User $user, array $data): array
     {
         $client = new Client($dealer->id, $user->id);
 
@@ -223,8 +210,8 @@ class Lead
             json_encode($request),
             [
                 'headers' => [
-                    'Content-Type' => 'application/vnd.coxauto.v1+json'
-                ]
+                    'Content-Type' => 'application/vnd.coxauto.v1+json',
+                ],
             ]
         );
 
@@ -233,13 +220,8 @@ class Lead
 
     /**
      * Get the list of trade-in vehicles.
-     *
-     * @param Dealer $dealer
-     * @param User $user
-     *
-     * @return array
      */
-    public function getTradeIn(Dealer $dealer, User $user) : array
+    public function getTradeIn(Dealer $dealer, User $user): array
     {
         $client = new Client($dealer->id, $user->id);
 
@@ -247,8 +229,8 @@ class Lead
             '/vehicles/trade?leadId=' . $this->id,
             [
                 'headers' => [
-                    'Accept' => 'application/vnd.coxauto.v1+json'
-                ]
+                    'Accept' => 'application/vnd.coxauto.v1+json',
+                ],
             ]
         );
 
