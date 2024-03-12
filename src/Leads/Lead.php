@@ -171,7 +171,7 @@ class Lead
         return new self($response);
     }
 
-    public static function getCoBuyer(Dealer $dealer, User $user, int $leadsId): ?int
+    public static function getCoBuyer(Dealer $dealer, User $user, int $leadsId): ?string
     {
         $client = new Client($dealer->id, $user->id);
         $data['DealerId'] = $dealer->id;
@@ -181,12 +181,16 @@ class Lead
             '/leads/id/' . $leadsId,
             [
                 'headers' => [
-                    'Accept' => 'application/vnd.coxauto.v1+json',
+                    'Accept' => 'application/vnd.coxauto.v3+json',
                 ],
             ]
         );
 
-        return $response['coBuyerContact'] ?? null;
+        if (preg_match("/\/id\/(\d+)/", $response['coBuyerContact'], $matches)) {
+            return $matches[1]; // $matches[1] contains the first captured group, which is the ID
+        }
+
+        return null;
     }
 
     /**
