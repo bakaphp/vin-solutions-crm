@@ -187,7 +187,7 @@ class Lead
         );
 
         if (preg_match("/\/id\/(\d+)/", $response['coBuyerContact'], $matches)) {
-            return $matches[1]; // $matches[1] contains the first captured group, which is the ID
+            return $matches[1];
         }
 
         return null;
